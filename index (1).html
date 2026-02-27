@@ -1,1143 +1,0 @@
-<!doctype html>
-<html lang="ar" dir="rtl" class="h-full">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الوحدة الثالثة - الفيزياء</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&amp;display=swap" rel="stylesheet">
-  <style>
-    * { font-family: 'Tajawal', sans-serif; }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-      50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
-    }
-    
-    @keyframes car-move {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    
-    @keyframes ball-fall {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(200px); }
-    }
-    
-    @keyframes pendulum {
-      0% { transform: rotate(30deg); }
-      50% { transform: rotate(-30deg); }
-      100% { transform: rotate(30deg); }
-    }
-    
-    @keyframes wave {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    
-    .animate-float { animation: float 3s ease-in-out infinite; }
-    .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-    .animate-car { animation: car-move 4s linear infinite; }
-    .animate-ball { animation: ball-fall 2s ease-in infinite; }
-    .animate-pendulum { animation: pendulum 2s ease-in-out infinite; transform-origin: top center; }
-    .animate-wave { animation: wave 2s linear infinite; }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-    }
-    
-    .card-gradient {
-      background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
-    }
-    
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .scroll-smooth { scroll-behavior: smooth; }
-    
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #1e293b; }
-    ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
-  </style>
-  <style>body { box-sizing: border-box; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body class="h-full gradient-bg text-white overflow-auto scroll-smooth"><!-- Login Screen -->
-  <div id="loginScreen" class="h-full flex items-center justify-center p-4">
-   <div class="glass-effect rounded-3xl p-8 md:p-12 w-full max-w-md animate-float">
-    <div class="text-center mb-8">
-     <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center animate-pulse-glow">
-      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-      </svg>
-     </div>
-     <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">الفيزياء التفاعلية</h1>
-     <p class="text-gray-400 mt-2">الوحدة الثالثة - الحركة والسرعة</p>
-    </div>
-    <div class="space-y-4">
-     <div><label class="block text-sm text-gray-300 mb-2">اسم المستخدم</label> <input type="text" id="username" class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-600 focus:border-blue-500 focus:outline-none transition-all" placeholder="أدخل اسم المستخدم">
-     </div>
-     <div><label class="block text-sm text-gray-300 mb-2">كلمة المرور</label> <input type="password" id="password" class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-600 focus:border-blue-500 focus:outline-none transition-all" placeholder="أدخل كلمة المرور">
-     </div>
-     <p id="loginError" class="text-red-400 text-sm hidden">اسم المستخدم أو كلمة المرور غير صحيحة</p><button onclick="handleLogin()" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 font-bold transition-all transform hover:scale-105"> دخول </button>
-    </div>
-   </div>
-  </div><!-- Main Content -->
-  <div id="mainContent" class="hidden"><!-- Header -->
-   <header class="sticky top-0 z-50 glass-effect py-4 px-6">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-     <h1 id="mainTitle" class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">الوحدة الثالثة - الحركة والسرعة</h1>
-     <nav class="hidden md:flex gap-4"><a href="#intro" class="hover:text-blue-400 transition-colors">مقدمة</a> <a href="#motion" class="hover:text-blue-400 transition-colors">الحركة</a> <a href="#speed" class="hover:text-blue-400 transition-colors">السرعة</a> <a href="#examples" class="hover:text-blue-400 transition-colors">أمثلة</a> <a href="#interactive" class="hover:text-blue-400 transition-colors">تجارب</a>
-     </nav>
-    </div>
-   </header><!-- Hero Section -->
-   <section class="py-16 px-6 text-center">
-    <div class="max-w-4xl mx-auto">
-     <h2 class="text-4xl md:text-5xl font-extrabold mb-6"><span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"> اكتشف عالم الحركة والسرعة </span></h2>
-     <p class="text-xl text-gray-300 mb-8">رحلة تفاعلية في عالم الفيزياء لفهم كيف تتحرك الأجسام وكيف نقيس سرعتها</p><!-- Animated Car Demo -->
-     <div class="relative h-32 bg-slate-800/50 rounded-2xl overflow-hidden mb-8">
-      <div class="absolute bottom-4 w-full">
-       <div class="animate-car">
-        <svg class="w-24 h-12" viewbox="0 0 100 50"><rect x="10" y="20" width="80" height="20" rx="5" fill="#3b82f6" /> <rect x="20" y="10" width="40" height="15" rx="3" fill="#60a5fa" /> <circle cx="25" cy="40" r="8" fill="#1e293b" stroke="#64748b" stroke-width="2" /> <circle cx="75" cy="40" r="8" fill="#1e293b" stroke="#64748b" stroke-width="2" /> <rect x="85" y="25" width="5" height="3" fill="#fbbf24" />
-        </svg>
-       </div>
-      </div>
-      <div class="absolute bottom-0 w-full h-2 bg-gray-600"></div>
-      <div class="absolute top-4 right-4 text-sm text-gray-400">
-       سيارة تتحرك بسرعة ثابتة
-      </div>
-     </div>
-    </div>
-   </section><!-- Introduction Section -->
-   <section id="intro" class="py-16 px-6">
-    <div class="max-w-6xl mx-auto">
-     <div class="card-gradient rounded-3xl p-8 md:p-12">
-      <h3 class="text-3xl font-bold mb-8 text-center"><span class="text-blue-400">📚</span> مقدمة عن الحركة</h3>
-      <div class="grid md:grid-cols-2 gap-8">
-       <div class="space-y-6">
-        <p class="text-lg text-gray-300 leading-relaxed"><strong class="text-white">الحركة</strong> هي تغير موقع الجسم بالنسبة للزمن. عندما ننظر حولنا، نرى أجساماً متحركة في كل مكان: السيارات في الشوارع، الطيور في السماء، والكواكب في الفضاء.</p>
-        <p class="text-lg text-gray-300 leading-relaxed">في الفيزياء، ندرس الحركة بطريقة علمية دقيقة. نقيس المسافات والأزمنة، ونحسب السرعات والتسارعات. هذا يساعدنا على فهم العالم من حولنا وتوقع كيف ستتحرك الأجسام.</p>
-        <p class="text-lg text-gray-300 leading-relaxed"><strong class="text-white">لماذا ندرس الحركة؟</strong> لأنها أساس فهم الكون! من حركة الذرات الصغيرة إلى حركة المجرات الضخمة، كل شيء يتحرك وفق قوانين الفيزياء.</p>
-       </div>
-       <div class="glass-effect rounded-2xl p-6 flex flex-col items-center justify-center">
-        <div class="text-6xl mb-4">
-         🌍
-        </div>
-        <p class="text-center text-gray-300">الأرض تدور حول الشمس بسرعة <span class="text-blue-400 font-bold">107,000 كم/ساعة</span></p>
-        <div class="mt-4 w-32 h-32 relative">
-         <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-8 h-8 bg-yellow-400 rounded-full"></div>
-         </div>
-         <div class="absolute inset-0 animate-spin" style="animation-duration: 8s;">
-          <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full"></div>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Motion Types Section -->
-   <section id="motion" class="py-16 px-6">
-    <div class="max-w-6xl mx-auto">
-     <h3 class="text-3xl font-bold mb-12 text-center"><span class="text-purple-400">🔄</span> أنواع الحركة</h3>
-     <div class="grid md:grid-cols-3 gap-6"><!-- Linear Motion -->
-      <div class="card-gradient rounded-2xl p-6 hover:scale-105 transition-transform">
-       <div class="h-40 bg-slate-800/50 rounded-xl mb-4 overflow-hidden relative">
-        <div class="absolute top-1/2 transform -translate-y-1/2 animate-car">
-         <div class="w-12 h-6 bg-green-500 rounded"></div>
-        </div>
-        <div class="absolute bottom-2 w-full h-1 bg-gray-600"></div>
-       </div>
-       <h4 class="text-xl font-bold text-green-400 mb-2">الحركة الخطية</h4>
-       <p class="text-gray-300">حركة الجسم في خط مستقيم. مثل السيارة على طريق مستقيم أو القطار على السكة. تتميز بأن الاتجاه لا يتغير.</p>
-       <div class="mt-4 p-3 bg-slate-800/50 rounded-lg">
-        <p class="text-sm text-gray-400">مثال: قطار يتحرك من محطة لأخرى</p>
-       </div>
-      </div><!-- Circular Motion -->
-      <div class="card-gradient rounded-2xl p-6 hover:scale-105 transition-transform">
-       <div class="h-40 bg-slate-800/50 rounded-xl mb-4 flex items-center justify-center">
-        <div class="w-24 h-24 border-4 border-dashed border-purple-500 rounded-full relative animate-spin" style="animation-duration: 3s;">
-         <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-purple-500 rounded-full"></div>
-        </div>
-       </div>
-       <h4 class="text-xl font-bold text-purple-400 mb-2">الحركة الدائرية</h4>
-       <p class="text-gray-300">حركة الجسم في مسار دائري حول نقطة ثابتة. مثل دوران الأرض حول الشمس أو حركة عقارب الساعة.</p>
-       <div class="mt-4 p-3 bg-slate-800/50 rounded-lg">
-        <p class="text-sm text-gray-400">مثال: دوران القمر حول الأرض</p>
-       </div>
-      </div><!-- Oscillatory Motion -->
-      <div class="card-gradient rounded-2xl p-6 hover:scale-105 transition-transform">
-       <div class="h-40 bg-slate-800/50 rounded-xl mb-4 flex items-center justify-center">
-        <div class="relative">
-         <div class="w-1 h-20 bg-gray-500"></div>
-         <div class="absolute top-0 left-1/2 transform -translate-x-1/2 animate-pendulum">
-          <div class="w-1 h-16 bg-orange-400"></div>
-          <div class="w-6 h-6 bg-orange-500 rounded-full -ml-2.5"></div>
-         </div>
-        </div>
-       </div>
-       <h4 class="text-xl font-bold text-orange-400 mb-2">الحركة الاهتزازية</h4>
-       <p class="text-gray-300">حركة الجسم ذهاباً وإياباً حول موضع اتزان. مثل حركة البندول أو الزنبرك أو وتر الجيتار.</p>
-       <div class="mt-4 p-3 bg-slate-800/50 rounded-lg">
-        <p class="text-sm text-gray-400">مثال: أرجوحة الأطفال</p>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Speed Section -->
-   <section id="speed" class="py-16 px-6">
-    <div class="max-w-6xl mx-auto">
-     <div class="card-gradient rounded-3xl p-8 md:p-12">
-      <h3 class="text-3xl font-bold mb-8 text-center"><span class="text-cyan-400">⚡</span> السرعة وأنواعها</h3>
-      <div class="grid md:grid-cols-2 gap-8 mb-12">
-       <div>
-        <h4 class="text-2xl font-bold text-blue-400 mb-4">ما هي السرعة؟</h4>
-        <p class="text-lg text-gray-300 leading-relaxed mb-4"><strong class="text-white">السرعة</strong> هي معدل تغير المسافة بالنسبة للزمن. بكلمات بسيطة: كم من المسافة يقطعها الجسم في وحدة زمنية معينة.</p>
-        <p class="text-lg text-gray-300 leading-relaxed mb-4">عندما نقول أن سيارة تسير بسرعة 60 كم/ساعة، فهذا يعني أنها تقطع 60 كيلومتر في كل ساعة.</p>
-        <p class="text-lg text-gray-300 leading-relaxed">السرعة من أهم المفاهيم في الفيزياء لأنها تصف كيف يتحرك الجسم في الزمان والمكان.</p>
-       </div>
-       <div class="glass-effect rounded-2xl p-6">
-        <h4 class="text-xl font-bold text-center mb-4">قانون السرعة</h4>
-        <div class="bg-slate-800 rounded-xl p-6 text-center">
-         <p class="text-3xl font-bold text-cyan-400 mb-2">v = d / t</p>
-         <div class="text-gray-300 text-sm space-y-1">
-          <p><span class="text-cyan-400">v</span> = السرعة (م/ث أو كم/س)</p>
-          <p><span class="text-green-400">d</span> = المسافة (متر أو كيلومتر)</p>
-          <p><span class="text-yellow-400">t</span> = الزمن (ثانية أو ساعة)</p>
-         </div>
-        </div>
-       </div>
-      </div><!-- Speed Types -->
-      <div class="grid md:grid-cols-2 gap-6">
-       <div class="glass-effect rounded-2xl p-6">
-        <h5 class="text-xl font-bold text-green-400 mb-3">السرعة المتوسطة</h5>
-        <p class="text-gray-300 mb-4">هي إجمالي المسافة المقطوعة مقسوماً على إجمالي الزمن المستغرق. تعطينا فكرة عامة عن سرعة الجسم خلال الرحلة.</p>
-        <div class="bg-slate-800/50 rounded-lg p-4">
-         <p class="text-sm text-gray-400"><strong>مثال:</strong> إذا قطعت سيارة 120 كم في ساعتين، فإن سرعتها المتوسطة = 120 ÷ 2 = 60 كم/ساعة</p>
-        </div>
-       </div>
-       <div class="glass-effect rounded-2xl p-6">
-        <h5 class="text-xl font-bold text-purple-400 mb-3">السرعة اللحظية</h5>
-        <p class="text-gray-300 mb-4">هي سرعة الجسم في لحظة معينة من الزمن. هذه هي السرعة التي يظهرها عداد السرعة في السيارة.</p>
-        <div class="bg-slate-800/50 rounded-lg p-4">
-         <p class="text-sm text-gray-400"><strong>مثال:</strong> عندما تنظر إلى عداد السرعة ويظهر 80 كم/س، هذه هي سرعتك اللحظية في تلك اللحظة.</p>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Examples Section -->
-   <section id="examples" class="py-16 px-6">
-    <div class="max-w-6xl mx-auto">
-     <h3 class="text-3xl font-bold mb-12 text-center"><span class="text-yellow-400">📝</span> أمثلة محلولة</h3>
-     <div class="space-y-6"><!-- Example 1 -->
-      <div class="card-gradient rounded-2xl p-6 md:p-8">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-xl font-bold shrink-0">
-         1
-        </div>
-        <div class="flex-1">
-         <h4 class="text-xl font-bold text-blue-400 mb-3">حساب السرعة</h4>
-         <p class="text-gray-300 mb-4"><strong>السؤال:</strong> قطعت سيارة مسافة 150 كيلومتر في زمن قدره 3 ساعات. احسب سرعة السيارة المتوسطة.</p>
-         <div class="bg-slate-800/50 rounded-xl p-4 space-y-2">
-          <p class="text-gray-300"><strong class="text-green-400">المعطيات:</strong> المسافة (d) = 150 كم، الزمن (t) = 3 ساعات</p>
-          <p class="text-gray-300"><strong class="text-yellow-400">المطلوب:</strong> السرعة (v)</p>
-          <p class="text-gray-300"><strong class="text-cyan-400">الحل:</strong></p>
-          <p class="text-gray-300 mr-4">v = d / t = 150 / 3 = <span class="text-green-400 font-bold">50 كم/ساعة</span></p>
-         </div>
-        </div>
-       </div>
-      </div><!-- Example 2 -->
-      <div class="card-gradient rounded-2xl p-6 md:p-8">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-xl font-bold shrink-0">
-         2
-        </div>
-        <div class="flex-1">
-         <h4 class="text-xl font-bold text-purple-400 mb-3">حساب المسافة</h4>
-         <p class="text-gray-300 mb-4"><strong>السؤال:</strong> يتحرك قطار بسرعة 80 كم/ساعة. ما المسافة التي يقطعها في 4 ساعات؟</p>
-         <div class="bg-slate-800/50 rounded-xl p-4 space-y-2">
-          <p class="text-gray-300"><strong class="text-green-400">المعطيات:</strong> السرعة (v) = 80 كم/س، الزمن (t) = 4 ساعات</p>
-          <p class="text-gray-300"><strong class="text-yellow-400">المطلوب:</strong> المسافة (d)</p>
-          <p class="text-gray-300"><strong class="text-cyan-400">الحل:</strong></p>
-          <p class="text-gray-300 mr-4">d = v × t = 80 × 4 = <span class="text-green-400 font-bold">320 كم</span></p>
-         </div>
-        </div>
-       </div>
-      </div><!-- Example 3 -->
-      <div class="card-gradient rounded-2xl p-6 md:p-8">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center text-xl font-bold shrink-0">
-         3
-        </div>
-        <div class="flex-1">
-         <h4 class="text-xl font-bold text-orange-400 mb-3">حساب الزمن</h4>
-         <p class="text-gray-300 mb-4"><strong>السؤال:</strong> تطير طائرة بسرعة 600 كم/ساعة. كم يستغرق قطع مسافة 1800 كم؟</p>
-         <div class="bg-slate-800/50 rounded-xl p-4 space-y-2">
-          <p class="text-gray-300"><strong class="text-green-400">المعطيات:</strong> السرعة (v) = 600 كم/س، المسافة (d) = 1800 كم</p>
-          <p class="text-gray-300"><strong class="text-yellow-400">المطلوب:</strong> الزمن (t)</p>
-          <p class="text-gray-300"><strong class="text-cyan-400">الحل:</strong></p>
-          <p class="text-gray-300 mr-4">t = d / v = 1800 / 600 = <span class="text-green-400 font-bold">3 ساعات</span></p>
-         </div>
-        </div>
-       </div>
-      </div><!-- Example 4 -->
-      <div class="card-gradient rounded-2xl p-6 md:p-8">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center text-xl font-bold shrink-0">
-         4
-        </div>
-        <div class="flex-1">
-         <h4 class="text-xl font-bold text-teal-400 mb-3">تحويل الوحدات</h4>
-         <p class="text-gray-300 mb-4"><strong>السؤال:</strong> يجري عداء بسرعة 10 م/ث. كم تساوي سرعته بالكيلومتر في الساعة؟</p>
-         <div class="bg-slate-800/50 rounded-xl p-4 space-y-2">
-          <p class="text-gray-300"><strong class="text-green-400">المعطيات:</strong> السرعة = 10 م/ث</p>
-          <p class="text-gray-300"><strong class="text-yellow-400">المطلوب:</strong> السرعة بـ كم/ساعة</p>
-          <p class="text-gray-300"><strong class="text-cyan-400">الحل:</strong></p>
-          <p class="text-gray-300 mr-4">للتحويل من م/ث إلى كم/س نضرب في 3.6</p>
-          <p class="text-gray-300 mr-4">v = 10 × 3.6 = <span class="text-green-400 font-bold">36 كم/ساعة</span></p>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Interactive Section -->
-   <section id="interactive" class="py-16 px-6">
-    <div class="max-w-6xl mx-auto">
-     <h3 class="text-3xl font-bold mb-12 text-center"><span class="text-pink-400">🧪</span> تجارب تفاعلية</h3>
-     <div class="grid md:grid-cols-2 gap-8"><!-- Speed Calculator -->
-      <div class="card-gradient rounded-2xl p-6">
-       <h4 class="text-xl font-bold text-blue-400 mb-4">حاسبة السرعة</h4>
-       <p class="text-gray-400 mb-4">أدخل المسافة والزمن لحساب السرعة</p>
-       <div class="space-y-4">
-        <div><label class="block text-sm text-gray-300 mb-1">المسافة (كم)</label> <input type="number" id="calcDistance" class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 focus:border-blue-500 focus:outline-none" placeholder="مثال: 100">
-        </div>
-        <div><label class="block text-sm text-gray-300 mb-1">الزمن (ساعة)</label> <input type="number" id="calcTime" class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 focus:border-blue-500 focus:outline-none" placeholder="مثال: 2">
-        </div><button onclick="calculateSpeed()" class="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 font-bold transition-colors"> احسب السرعة </button>
-        <div id="speedResult" class="p-4 bg-slate-800/50 rounded-lg text-center hidden">
-         <p class="text-gray-300">السرعة = <span id="speedValue" class="text-2xl font-bold text-green-400"></span> كم/ساعة</p>
-        </div>
-       </div>
-      </div><!-- Motion Simulator -->
-      <div class="card-gradient rounded-2xl p-6">
-       <h4 class="text-xl font-bold text-purple-400 mb-4">محاكاة الحركة</h4>
-       <p class="text-gray-400 mb-4">اختر نوع الحركة لمشاهدة المحاكاة</p>
-       <div class="flex gap-2 mb-4"><button onclick="setMotionType('linear')" class="flex-1 py-2 px-3 rounded-lg bg-green-600 hover:bg-green-700 text-sm font-medium transition-colors">خطية</button> <button onclick="setMotionType('circular')" class="flex-1 py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-700 text-sm font-medium transition-colors">دائرية</button> <button onclick="setMotionType('oscillatory')" class="flex-1 py-2 px-3 rounded-lg bg-orange-600 hover:bg-orange-700 text-sm font-medium transition-colors">اهتزازية</button>
-       </div>
-       <div id="motionDemo" class="h-48 bg-slate-800/50 rounded-xl overflow-hidden relative"><!-- Linear Motion Default -->
-        <div id="linearDemo" class="absolute inset-0 flex items-center">
-         <div class="animate-car">
-          <div class="w-16 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-lg"></div>
-         </div>
-         <div class="absolute bottom-4 w-full h-1 bg-gray-600"></div>
-        </div>
-        <div id="circularDemo" class="absolute inset-0 flex items-center justify-center hidden">
-         <div class="w-32 h-32 border-4 border-dashed border-purple-500/50 rounded-full relative animate-spin" style="animation-duration: 2s;">
-          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-purple-500 rounded-full shadow-lg shadow-purple-500/50"></div>
-         </div>
-        </div>
-        <div id="oscillatoryDemo" class="absolute inset-0 flex items-center justify-center hidden">
-         <div class="relative">
-          <div class="w-1 h-4 bg-gray-500"></div>
-          <div class="animate-pendulum">
-           <div class="w-1 h-24 bg-orange-400"></div>
-           <div class="w-8 h-8 bg-orange-500 rounded-full -ml-3.5 shadow-lg shadow-orange-500/50"></div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <p id="motionDescription" class="mt-4 text-center text-gray-300">الحركة الخطية: الجسم يتحرك في خط مستقيم</p>
-      </div>
-     </div><!-- Speed Comparison -->
-     <div class="card-gradient rounded-2xl p-6 md:p-8 mt-8">
-      <h4 class="text-xl font-bold text-cyan-400 mb-6 text-center">مقارنة السرعات</h4>
-      <div class="space-y-4">
-       <div class="flex items-center gap-4"><span class="w-24 text-sm text-gray-300">🚶 الإنسان</span>
-        <div class="flex-1 bg-slate-800 rounded-full h-6 overflow-hidden">
-         <div class="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-1000" style="width: 1%"></div>
-        </div><span class="w-20 text-sm text-gray-400">5 كم/س</span>
-       </div>
-       <div class="flex items-center gap-4"><span class="w-24 text-sm text-gray-300">🚴 دراجة</span>
-        <div class="flex-1 bg-slate-800 rounded-full h-6 overflow-hidden">
-         <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-1000" style="width: 5%"></div>
-        </div><span class="w-20 text-sm text-gray-400">25 كم/س</span>
-       </div>
-       <div class="flex items-center gap-4"><span class="w-24 text-sm text-gray-300">🚗 سيارة</span>
-        <div class="flex-1 bg-slate-800 rounded-full h-6 overflow-hidden">
-         <div class="h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full transition-all duration-1000" style="width: 24%"></div>
-        </div><span class="w-20 text-sm text-gray-400">120 كم/س</span>
-       </div>
-       <div class="flex items-center gap-4"><span class="w-24 text-sm text-gray-300">🚄 قطار</span>
-        <div class="flex-1 bg-slate-800 rounded-full h-6 overflow-hidden">
-         <div class="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full transition-all duration-1000" style="width: 60%"></div>
-        </div><span class="w-20 text-sm text-gray-400">300 كم/س</span>
-       </div>
-       <div class="flex items-center gap-4"><span class="w-24 text-sm text-gray-300">✈️ طائرة</span>
-        <div class="flex-1 bg-slate-800 rounded-full h-6 overflow-hidden">
-         <div class="h-full bg-gradient-to-r from-pink-500 to-pink-600 rounded-full transition-all duration-1000" style="width: 100%"></div>
-        </div><span class="w-20 text-sm text-gray-400">500 كم/س</span>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Quiz Section -->
-   <section id="quiz" class="py-16 px-6">
-    <div class="max-w-6xl mx-auto">
-     <h3 class="text-3xl font-bold mb-12 text-center"><span class="text-red-400">🧠</span> اختبر معلوماتك</h3><!-- Quiz Navigation Tabs -->
-     <div class="flex gap-2 mb-8 overflow-x-auto justify-center flex-wrap">
-      <button onclick="switchQuizTab('truefalse')" class="quiz-tab active px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 font-bold transition-colors">صح أم غلط</button> <button onclick="switchQuizTab('multiple')" class="quiz-tab px-6 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 font-bold transition-colors">اختيار من متعدد</button> <button onclick="switchQuizTab('problems')" class="quiz-tab px-6 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 font-bold transition-colors">مسائل حسابية</button>
-     </div><!-- True/False Quiz -->
-     <div id="truefalsTab" class="quiz-content">
-      <div class="space-y-6">
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 1: السرعة والسرعة المتجهة نفس الشيء</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(1, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(1, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf1-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">السرعة كمية قياسية (العدد فقط)، بينما السرعة المتجهة كمية متجهة (العدد + الاتجاه). مثلاً: 60 كم/س سرعة، لكن 60 كم/س نحو الشرق سرعة متجهة.</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 2: المسافة والإزاحة متساويتان دائماً</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(2, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(2, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf2-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">المسافة هي طول المسار الفعلي، بينما الإزاحة هي المسار المباشر بين نقطة البداية والنهاية. قد تكون مختلفة جداً!</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 3: السرعة المتوسطة = (السرعة الابتدائية + السرعة النهائية) / 2</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(3, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(3, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf3-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">السرعة المتوسطة = إجمالي المسافة / إجمالي الزمن. الصيغة المذكورة صحيحة فقط للحركة المتسارعة بانتظام.</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 4: التسارع هو تغير السرعة بالنسبة للزمن</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(4, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(4, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf4-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">هذا التعريف صحيح تماماً. التسارع (a) = التغير في السرعة / الزمن = Δv / Δt</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 5: الجسم الذي يتحرك في دائرة بسرعة ثابتة ليس عنده تسارع</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(5, false)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(5, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf5-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">يوجد تسارع مركزي لأن الاتجاه يتغير باستمرار</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 6: السرعة اللحظية يمكن قياسها من عداد السيارة</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(6, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(6, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf6-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">عداد السيارة يظهر السرعة اللحظية في كل لحظة</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 7: الجسم الثابت سرعته = صفر</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(7, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(7, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf7-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">إذا لم يتحرك الجسم، فلا توجد مسافة، والسرعة = 0</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 8: التسارع السالب يعني حركة للخلف</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(8, false)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(8, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf8-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">التسارع السالب يعني تناقص السرعة (تباطؤ)، لا علاقة باتجاه الحركة</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 9: وحدة التسارع هي م/ث²</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(9, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(9, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf9-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">وحدة التسارع هي متر في الثانية المربعة (m/s²)</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 10: الحركة المنتظمة سرعتها ثابتة</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(10, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(10, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf10-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">في الحركة المنتظمة السرعة ثابتة والتسارع = 0</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 11: الإزاحة كمية قياسية</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(11, false)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(11, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf11-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">الإزاحة كمية متجهة (لها مقدار واتجاه)</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 12: 1 كم/س = 0.277 م/ث</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(12, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(12, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf12-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">عند قسمة 1000 على 3600 نحصل على 0.277</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 13: البندول حركته خطية</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(13, false)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(13, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf13-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">البندول حركته اهتزازية (ذهاباً وإياباً)</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 14: السرعة المتوسطة تساوي المسافة الكلية ÷ الزمن الكلي</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(14, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(14, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf14-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">هذا هو التعريف الصحيح للسرعة المتوسطة</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 15: الجسم يمكن يتحرك بسرعة سالبة</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(15, false)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(15, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf15-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">السرعة كمية موجبة دائماً (لا توجد سرعة سالبة)</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 16: جميع الأجسام تسقط بنفس التسارع</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(16, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(16, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf16-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">تسارع الجاذبية ≈ 9.8 م/ث² لجميع الأجسام</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 17: رسم v-t يعطيك الإزاحة من المساحة تحت الخط</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(17, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(17, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf17-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">في رسم السرعة-الزمن، المساحة تحت الخط = الإزاحة</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 18: القمر يدور حول الأرض بحركة دائرية منتظمة</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(18, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(18, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf18-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">القمر يدور بسرعة ثابتة تقريباً حول الأرض</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 19: المسافة لا تساوي الإزاحة إلا في الحركة الخطية</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(19, false)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(19, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf19-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">المسافة والإزاحة متساويان فقط في الحركة الخطية في اتجاه واحد</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 20: سرعة الضوء ثابتة في الفراغ</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(20, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(20, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf20-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">سرعة الضوء ≈ 3×10⁸ م/ث ثابتة في الفراغ</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 21: التسارع الموجب يعني زيادة السرعة دائماً</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(21, false)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(21, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf21-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-red-400">غلط</span></p>
-         <p class="text-gray-300 mt-2">يمكن يكون التسارع موجب والسرعة تتناقص (إذا كانت السرعة سالبة)</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 22: المسافة المقطوعة في الحركة المتسارعة = v₀t + ½at²</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(22, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(22, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf22-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">هذه معادلة الحركة المتسارعة الأولى</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 23: عجلة الجاذبية = 10 م/ث² (تقريباً)</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(23, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(23, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf23-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">g = 9.8 م/ث² ≈ 10 م/ث² (تقريبي)</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 24: الحركة المتسارعة يمكن تكون في اتجاه معاكس للسرعة</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(24, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(24, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf24-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">هذا يحدث عند الفرملة (التباطؤ)</p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start justify-between gap-4">
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">السؤال 25: الفرق بين السرعة اللحظية والمتوسطة أن الأولى في لحظة والثانية في فترة زمنية</h4>
-          <div class="flex gap-3">
-           <button onclick="checkTrueFalse(25, true)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">✓ صح</button> <button onclick="checkTrueFalse(25, false)" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-bold transition-colors">✗ غلط</button>
-          </div>
-         </div>
-        </div>
-        <div id="tf25-feedback" class="mt-4 hidden">
-         <p class="text-yellow-300 font-bold">الإجابة الصحيحة: <span class="text-green-400">صح</span></p>
-         <p class="text-gray-300 mt-2">هذا هو الفرق الأساسي بينهما</p>
-        </div>
-       </div>
-      </div>
-     </div><!-- Multiple Choice Quiz -->
-     <div id="multipleTab" class="quiz-content hidden">
-      <div class="space-y-6">
-       <div class="card-gradient rounded-2xl p-6">
-        <h4 class="text-lg font-bold mb-4">السؤال 1: وحدة قياس السرعة في النظام الدولي هي:</h4>
-        <div class="space-y-2">
-         <button onclick="checkMultiple(1, 'a')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">أ) كم/س</button> <button onclick="checkMultiple(1, 'b')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ب) م/ث ✓</button> <button onclick="checkMultiple(1, 'c')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ج) سم/ث</button> <button onclick="checkMultiple(1, 'd')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">د) ملم/ث</button>
-        </div>
-        <div id="mc1-feedback" class="mt-4 hidden p-4 bg-slate-800/50 rounded-lg">
-         <p id="mc1-text" class="text-gray-300"></p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <h4 class="text-lg font-bold mb-4">السؤال 2: سيارة تقطع 200 كم في 4 ساعات، سرعتها المتوسطة:</h4>
-        <div class="space-y-2">
-         <button onclick="checkMultiple(2, 'a')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">أ) 50 كم/س ✓</button> <button onclick="checkMultiple(2, 'b')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ب) 100 كم/س</button> <button onclick="checkMultiple(2, 'c')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ج) 200 كم/س</button> <button onclick="checkMultiple(2, 'd')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">د) 25 كم/س</button>
-        </div>
-        <div id="mc2-feedback" class="mt-4 hidden p-4 bg-slate-800/50 rounded-lg">
-         <p id="mc2-text" class="text-gray-300"></p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <h4 class="text-lg font-bold mb-4">السؤال 3: أي من الخيارات التالية يمثل كمية متجهة:</h4>
-        <div class="space-y-2">
-         <button onclick="checkMultiple(3, 'a')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">أ) المسافة</button> <button onclick="checkMultiple(3, 'b')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ب) السرعة</button> <button onclick="checkMultiple(3, 'c')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ج) الإزاحة ✓</button> <button onclick="checkMultiple(3, 'd')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">د) الزمن</button>
-        </div>
-        <div id="mc3-feedback" class="mt-4 hidden p-4 bg-slate-800/50 rounded-lg">
-         <p id="mc3-text" class="text-gray-300"></p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <h4 class="text-lg font-bold mb-4">السؤال 4: إذا تحرك جسم 100 متر شرقاً ثم 100 متر غرباً، إزاحته:</h4>
-        <div class="space-y-2">
-         <button onclick="checkMultiple(4, 'a')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">أ) 200 متر</button> <button onclick="checkMultiple(4, 'b')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ب) 100 متر</button> <button onclick="checkMultiple(4, 'c')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ج) صفر ✓</button> <button onclick="checkMultiple(4, 'd')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">د) لا يمكن تحديده</button>
-        </div>
-        <div id="mc4-feedback" class="mt-4 hidden p-4 bg-slate-800/50 rounded-lg">
-         <p id="mc4-text" class="text-gray-300"></p>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <h4 class="text-lg font-bold mb-4">السؤال 5: قطار يتحرك 300 كم بسرعة 100 كم/س، الزمن المستغرق:</h4>
-        <div class="space-y-2">
-         <button onclick="checkMultiple(5, 'a')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">أ) 5 ساعات</button> <button onclick="checkMultiple(5, 'b')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ب) 3 ساعات ✓</button> <button onclick="checkMultiple(5, 'c')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">ج) 2 ساعات</button> <button onclick="checkMultiple(5, 'd')" class="w-full text-right p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors mc-option">د) 4 ساعات</button>
-        </div>
-        <div id="mc5-feedback" class="mt-4 hidden p-4 bg-slate-800/50 rounded-lg">
-         <p id="mc5-text" class="text-gray-300"></p>
-        </div>
-       </div>
-      </div>
-     </div><!-- Problems Quiz -->
-     <div id="problemsTab" class="quiz-content hidden">
-      <div class="space-y-6">
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start gap-4">
-         <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-lg font-bold shrink-0">
-          1
-         </div>
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">مسألة 1: حساب السرعة</h4>
-          <p class="text-gray-300 mb-4">دراجة نارية تقطع مسافة 450 كم في 5 ساعات. احسب السرعة المتوسطة لها.</p>
-          <div class="space-y-2">
-           <input type="number" id="prob1-answer" class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 focus:border-blue-500 focus:outline-none" placeholder="أدخل الإجابة (كم/س)"> <button onclick="checkProblem(1, 90)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">تحقق من الإجابة</button>
-          </div>
-          <div id="prob1-feedback" class="mt-4 hidden">
-           <p id="prob1-text" class="text-gray-300"></p>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start gap-4">
-         <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center text-lg font-bold shrink-0">
-          2
-         </div>
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">مسألة 2: حساب المسافة</h4>
-          <p class="text-gray-300 mb-4">طائرة تحلق بسرعة 800 كم/ساعة لمدة 2.5 ساعة. ما المسافة التي تقطعها؟</p>
-          <div class="space-y-2">
-           <input type="number" id="prob2-answer" class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 focus:border-blue-500 focus:outline-none" placeholder="أدخل الإجابة (كم)"> <button onclick="checkProblem(2, 2000)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">تحقق من الإجابة</button>
-          </div>
-          <div id="prob2-feedback" class="mt-4 hidden">
-           <p id="prob2-text" class="text-gray-300"></p>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start gap-4">
-         <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center text-lg font-bold shrink-0">
-          3
-         </div>
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">مسألة 3: حساب الزمن</h4>
-          <p class="text-gray-300 mb-4">قطار يتحرك بسرعة 120 كم/ساعة. كم من الوقت يحتاج لقطع مسافة 600 كم؟</p>
-          <div class="space-y-2">
-           <input type="number" id="prob3-answer" class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 focus:border-blue-500 focus:outline-none" placeholder="أدخل الإجابة (ساعة)"> <button onclick="checkProblem(3, 5)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">تحقق من الإجابة</button>
-          </div>
-          <div id="prob3-feedback" class="mt-4 hidden">
-           <p id="prob3-text" class="text-gray-300"></p>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start gap-4">
-         <div class="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center text-lg font-bold shrink-0">
-          4
-         </div>
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">مسألة 4: تحويل الوحدات</h4>
-          <p class="text-gray-300 mb-4">عداء يركض بسرعة 8 م/ث. حول هذه السرعة إلى كم/ساعة.</p>
-          <div class="space-y-2">
-           <input type="number" id="prob4-answer" class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 focus:border-blue-500 focus:outline-none" placeholder="أدخل الإجابة (كم/س)"> <button onclick="checkProblem(4, 28.8)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">تحقق من الإجابة</button>
-          </div>
-          <div id="prob4-feedback" class="mt-4 hidden">
-           <p id="prob4-text" class="text-gray-300"></p>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="card-gradient rounded-2xl p-6">
-        <div class="flex items-start gap-4">
-         <div class="w-10 h-10 bg-pink-600 rounded-lg flex items-center justify-center text-lg font-bold shrink-0">
-          5
-         </div>
-         <div class="flex-1">
-          <h4 class="text-lg font-bold mb-3">مسألة 5: السرعة المتوسطة</h4>
-          <p class="text-gray-300 mb-4">سيارة تقطع 150 كم في الساعة الأولى، ثم 100 كم في الساعة الثانية. احسب السرعة المتوسطة للرحلة كاملة.</p>
-          <div class="space-y-2">
-           <input type="number" id="prob5-answer" class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 focus:border-blue-500 focus:outline-none" placeholder="أدخل الإجابة (كم/س)"> <button onclick="checkProblem(5, 125)" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 font-bold transition-colors">تحقق من الإجابة</button>
-          </div>
-          <div id="prob5-feedback" class="mt-4 hidden">
-           <p id="prob5-text" class="text-gray-300"></p>
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Key Concepts Summary -->
-   <section class="py-16 px-6">
-    <div class="max-w-6xl mx-auto">
-     <div class="card-gradient rounded-3xl p-8 md:p-12">
-      <h3 class="text-3xl font-bold mb-8 text-center"><span class="text-emerald-400">💡</span> ملخص المفاهيم الأساسية</h3>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-       <div class="glass-effect rounded-xl p-5">
-        <div class="text-3xl mb-3">
-         📍
-        </div>
-        <h5 class="font-bold text-emerald-400 mb-2">الموقع</h5>
-        <p class="text-sm text-gray-300">مكان الجسم بالنسبة لنقطة مرجعية محددة</p>
-       </div>
-       <div class="glass-effect rounded-xl p-5">
-        <div class="text-3xl mb-3">
-         ↔️
-        </div>
-        <h5 class="font-bold text-blue-400 mb-2">الإزاحة</h5>
-        <p class="text-sm text-gray-300">التغير في الموقع مع الاتجاه (كمية متجهة)</p>
-       </div>
-       <div class="glass-effect rounded-xl p-5">
-        <div class="text-3xl mb-3">
-         📏
-        </div>
-        <h5 class="font-bold text-purple-400 mb-2">المسافة</h5>
-        <p class="text-sm text-gray-300">طول المسار الذي يقطعه الجسم (كمية قياسية)</p>
-       </div>
-       <div class="glass-effect rounded-xl p-5">
-        <div class="text-3xl mb-3">
-         ⚡
-        </div>
-        <h5 class="font-bold text-yellow-400 mb-2">السرعة</h5>
-        <p class="text-sm text-gray-300">معدل تغير المسافة بالنسبة للزمن</p>
-       </div>
-       <div class="glass-effect rounded-xl p-5">
-        <div class="text-3xl mb-3">
-         🎯
-        </div>
-        <h5 class="font-bold text-orange-400 mb-2">السرعة المتجهة</h5>
-        <p class="text-sm text-gray-300">السرعة مع تحديد الاتجاه (كمية متجهة)</p>
-       </div>
-       <div class="glass-effect rounded-xl p-5">
-        <div class="text-3xl mb-3">
-         🚀
-        </div>
-        <h5 class="font-bold text-pink-400 mb-2">التسارع</h5>
-        <p class="text-sm text-gray-300">معدل تغير السرعة بالنسبة للزمن</p>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Footer -->
-   <footer class="py-8 px-6 border-t border-slate-700/50">
-    <div class="max-w-6xl mx-auto text-center">
-     <p class="text-gray-400">الوحدة الثالثة - الفيزياء | الحركة والسرعة</p>
-    </div>
-   </footer>
-  </div>
-  <script>
-    const defaultConfig = {
-      main_title: 'الوحدة الثالثة - الحركة والسرعة'
-    };
-
-    function handleLogin() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const errorEl = document.getElementById('loginError');
-      
-      if (username === 'Hozan' && password === '2010') {
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-        errorEl.classList.add('hidden');
-      } else {
-        errorEl.classList.remove('hidden');
-      }
-    }
-
-    document.getElementById('username').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') handleLogin();
-    });
-    document.getElementById('password').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') handleLogin();
-    });
-
-    function calculateSpeed() {
-      const distance = parseFloat(document.getElementById('calcDistance').value);
-      const time = parseFloat(document.getElementById('calcTime').value);
-      const resultDiv = document.getElementById('speedResult');
-      const speedValue = document.getElementById('speedValue');
-      
-      if (distance && time && time > 0) {
-        const speed = (distance / time).toFixed(2);
-        speedValue.textContent = speed;
-        resultDiv.classList.remove('hidden');
-      }
-    }
-
-    function setMotionType(type) {
-      const linear = document.getElementById('linearDemo');
-      const circular = document.getElementById('circularDemo');
-      const oscillatory = document.getElementById('oscillatoryDemo');
-      const description = document.getElementById('motionDescription');
-      
-      linear.classList.add('hidden');
-      circular.classList.add('hidden');
-      oscillatory.classList.add('hidden');
-      
-      switch(type) {
-        case 'linear':
-          linear.classList.remove('hidden');
-          description.textContent = 'الحركة الخطية: الجسم يتحرك في خط مستقيم';
-          break;
-        case 'circular':
-          circular.classList.remove('hidden');
-          description.textContent = 'الحركة الدائرية: الجسم يدور حول نقطة ثابتة';
-          break;
-        case 'oscillatory':
-          oscillatory.classList.remove('hidden');
-          description.textContent = 'الحركة الاهتزازية: الجسم يتحرك ذهاباً وإياباً';
-          break;
-      }
-    }
-
-    // Quiz Functions
-    function switchQuizTab(tab) {
-      const tabs = document.querySelectorAll('.quiz-tab');
-      const contents = document.querySelectorAll('.quiz-content');
-      
-      tabs.forEach(t => t.classList.remove('active'));
-      contents.forEach(c => c.classList.add('hidden'));
-      
-      event.target.classList.add('active');
-      
-      switch(tab) {
-        case 'truefalse':
-          document.getElementById('truefalsTab').classList.remove('hidden');
-          break;
-        case 'multiple':
-          document.getElementById('multipleTab').classList.remove('hidden');
-          break;
-        case 'problems':
-          document.getElementById('problemsTab').classList.remove('hidden');
-          break;
-      }
-    }
-
-    function checkTrueFalse(questionNum, answer) {
-      const feedbackDiv = document.getElementById(`tf${questionNum}-feedback`);
-      feedbackDiv.classList.remove('hidden');
-    }
-
-    function checkMultiple(questionNum, answer) {
-      const feedbackDiv = document.getElementById(`mc${questionNum}-feedback`);
-      const feedbackText = document.getElementById(`mc${questionNum}-text`);
-      
-      const answers = {
-        1: { correct: 'b', text: '✓ الإجابة الصحيحة: م/ث\nوحدة السرعة في النظام الدولي هي متر في الثانية (m/s أو م/ث)' },
-        2: { correct: 'a', text: '✓ الإجابة الصحيحة: 50 كم/س\nالحل: 200 ÷ 4 = 50 كم/س' },
-        3: { correct: 'c', text: '✓ الإجابة الصحيحة: الإزاحة\nالإزاحة هي كمية متجهة (لها اتجاه)، بينما المسافة والسرعة والزمن كميات قياسية' },
-        4: { correct: 'c', text: '✓ الإجابة الصحيحة: صفر\nلأن النقطة الابتدائية والنهائية متطابقة!' },
-        5: { correct: 'b', text: '✓ الإجابة الصحيحة: 3 ساعات\nالحل: 300 ÷ 100 = 3 ساعات' }
-      };
-
-      const correctAnswer = answers[questionNum].correct;
-      
-      if (answer === correctAnswer) {
-        feedbackText.innerHTML = '✓ <span class="text-green-400">إجابة صحيحة!</span>\n' + answers[questionNum].text;
-        feedbackText.className = 'text-gray-300';
-      } else {
-        feedbackText.innerHTML = '✗ <span class="text-red-400">إجابة خاطئة!</span>\n' + answers[questionNum].text;
-        feedbackText.className = 'text-gray-300';
-      }
-      
-      feedbackDiv.classList.remove('hidden');
-    }
-
-    function checkProblem(problemNum, correctAnswer) {
-      const input = document.getElementById(`prob${problemNum}-answer`);
-      const userAnswer = parseFloat(input.value);
-      const feedbackDiv = document.getElementById(`prob${problemNum}-feedback`);
-      const feedbackText = document.getElementById(`prob${problemNum}-text`);
-      
-      const problems = {
-        1: { 
-          correct: 90, 
-          solution: 'الحل: السرعة = المسافة ÷ الزمن = 450 ÷ 5 = 90 كم/س' 
-        },
-        2: { 
-          correct: 2000, 
-          solution: 'الحل: المسافة = السرعة × الزمن = 800 × 2.5 = 2000 كم' 
-        },
-        3: { 
-          correct: 5, 
-          solution: 'الحل: الزمن = المسافة ÷ السرعة = 600 ÷ 120 = 5 ساعات' 
-        },
-        4: { 
-          correct: 28.8, 
-          solution: 'الحل: للتحويل من م/ث إلى كم/س نضرب في 3.6\n8 × 3.6 = 28.8 كم/س' 
-        },
-        5: { 
-          correct: 125, 
-          solution: 'الحل: السرعة المتوسطة = المسافة الكلية ÷ الزمن الكلي\nالمسافة = 150 + 100 = 250 كم\nالزمن = 2 ساعة\nالسرعة = 250 ÷ 2 = 125 كم/س' 
-        }
-      };
-
-      const problem = problems[problemNum];
-      const tolerance = 0.5;
-
-      if (Math.abs(userAnswer - problem.correct) <= tolerance) {
-        feedbackText.innerHTML = `✓ <span class="text-green-400 font-bold">إجابة صحيحة!</span><br/>${problem.solution}`;
-        feedbackText.className = 'text-gray-300';
-      } else {
-        feedbackText.innerHTML = `✗ <span class="text-red-400 font-bold">إجابة خاطئة!</span><br/>الإجابة الصحيحة: ${problem.correct}<br/>${problem.solution}`;
-        feedbackText.className = 'text-gray-300';
-      }
-      
-      feedbackDiv.classList.remove('hidden');
-    }
-
-    async function onConfigChange(config) {
-      const mainTitle = document.getElementById('mainTitle');
-      if (mainTitle) {
-        mainTitle.textContent = config.main_title || defaultConfig.main_title;
-      }
-    }
-
-    function mapToCapabilities(config) {
-      return {
-        recolorables: [],
-        borderables: [],
-        fontEditable: undefined,
-        fontSizeable: undefined
-      };
-    }
-
-    function mapToEditPanelValues(config) {
-      return new Map([
-        ['main_title', config.main_title || defaultConfig.main_title]
-      ]);
-    }
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
-      });
-    }
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d3d6ecd417978a8',t:'MTc3MjA4NzgzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
