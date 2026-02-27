@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الفصل الثالث: الحركة المتسارعة</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Tajawal', sans-serif; }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    }
+    
+    .card-glow {
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+    }
+    
+    .equation-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    
+    .nav-item {
+      transition: all 0.3s ease;
+    }
+    
+    .nav-item:hover, .nav-item.active {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      transform: translateX(-5px);
+    }
+    
+    .floating-ball {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .falling-ball {
+      animation: fall 2s ease-in infinite;
+    }
+    
+    @keyframes fall {
+      0% { transform: translateY(-100px); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(200px); opacity: 0; }
+    }
+    
+    @keyframes accelerate {
+      0% { left: 0; transform: scaleX(0.3); }
+      100% { left: 100%; transform: scaleX(1.2); }
+    }
+    
+    @keyframes decelerate {
+      0% { left: 0; transform: scaleX(1.2); }
+      100% { left: 100%; transform: scaleX(0.3); }
+    }
+    
+    @keyframes circular {
+      0% { left: 50%; top: 0%; transform: translate(-50%, -50%); }
+      25% { left: 100%; top: 50%; transform: translate(-50%, -50%); }
+      50% { left: 50%; top: 100%; transform: translate(-50%, -50%); }
+      75% { left: 0%; top: 50%; transform: translate(-50%, -50%); }
+      100% { left: 50%; top: 0%; transform: translate(-50%, -50%); }
+    }
+    
+    .pulse-glow {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+    }
+    
+    .section-content {
+      display: none;
+    }
+    
+    .section-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .tip-card {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1));
+      border-right: 4px solid #22c55e;
+    }
+    
+    .warning-card {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+      border-right: 4px solid #ef4444;
+    }
+    
+    .formula-highlight {
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), transparent);
+      border-right: 3px solid #fbbf24;
+    }
+
+    .interactive-demo {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg text-white overflow-auto"><!-- Login Screen -->
+  <div id="login-screen" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur flex items-center justify-center">
+   <div class="w-full max-w-md mx-4">
+    <div class="bg-slate-800/80 rounded-2xl p-8 border border-slate-700/50 backdrop-blur">
+     <div class="text-center mb-8">
+      <div class="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mx-auto mb-4 pulse-glow"><span class="text-4xl">🔐</span>
+      </div>
+      <h1 class="text-3xl font-bold bg-gradient-to-l from-blue-400 to-purple-400 bg-clip-text text-transparent">منصة الفيزياء</h1>
+      <p class="text-slate-400 mt-2">الفصل الثالث: الحركة المتسارعة</p>
+     </div>
+     <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+      <div><label class="block text-slate-300 mb-2 font-bold">اسم المستخدم</label> <input type="text" id="username-input" placeholder="أدخل اسمك" class="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all text-lg">
+      </div>
+      <div><label class="block text-slate-300 mb-2 font-bold">كلمة المرور</label> <input type="password" id="password-input" placeholder="أدخل كلمة المرور" class="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all text-lg">
+      </div>
+      <div id="login-error" class="bg-red-500/20 border border-red-500/50 rounded-lg p-3 text-red-300 text-center hidden">
+       <p id="error-message"></p>
+      </div><button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 text-lg"> دخول 🚀 </button>
+     </form>
+     <p class="text-center text-slate-400 text-sm mt-6">💡 المستخدم: <span class="text-blue-300 font-bold">Hozan</span> | كلمة المرور: <span class="text-blue-300 font-bold">2010</span></p>
+    </div>
+   </div>
+  </div>
+  <div id="main-content" class="hidden min-h-full w-full">
+   <!-- Header -->
+   <header class="sticky top-0 z-50 backdrop-blur-lg bg-slate-900/80 border-b border-slate-700/50">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+     <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+       <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center pulse-glow">
+        <span class="text-2xl">⚡</span>
+       </div>
+       <div>
+        <h1 id="main-title" class="text-xl md:text-2xl font-bold bg-gradient-to-l from-blue-400 to-purple-400 bg-clip-text text-transparent">الفصل الثالث: الحركة المتسارعة</h1>
+        <p class="text-slate-400 text-sm">فيزياء - المرحلة الثانوية</p>
+       </div>
+      </div>
+      <div class="hidden md:flex items-center gap-2 text-sm text-slate-400"><span class="px-3 py-1 rounded-full bg-slate-800">📚 شرح تفاعلي</span> <button onclick="logout()" class="px-4 py-2 rounded-full bg-red-500/20 hover:bg-red-500/30 text-red-300 hover:text-red-200 transition-all">تسجيل الخروج 🚪</button>
+      </div>
+     </div>
+    </div>
+   </header>
+   <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col lg:flex-row gap-6">
+    <!-- Sidebar Navigation -->
+    <nav class="lg:w-72 flex-shrink-0">
+     <div class="lg:sticky lg:top-24 bg-slate-800/50 rounded-2xl p-4 backdrop-blur border border-slate-700/50">
+      <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span>📋</span> محتويات الفصل</h2>
+      <div class="space-y-2" id="nav-menu">
+       <button onclick="showSection('intro')" class="nav-item active w-full text-right px-4 py-3 rounded-xl bg-slate-700/50 flex items-center gap-3"> <span class="text-xl">🎯</span> <span>مقدمة التسارع</span> </button> <button onclick="showSection('equations')" class="nav-item w-full text-right px-4 py-3 rounded-xl bg-slate-700/50 flex items-center gap-3"> <span class="text-xl">📐</span> <span>معادلات الحركة</span> </button> <button onclick="showSection('freefall')" class="nav-item w-full text-right px-4 py-3 rounded-xl bg-slate-700/50 flex items-center gap-3"> <span class="text-xl">🍎</span> <span>السقوط الحر</span> </button> <button onclick="showSection('graphs')" class="nav-item w-full text-right px-4 py-3 rounded-xl bg-slate-700/50 flex items-center gap-3"> <span class="text-xl">📊</span> <span>الرسوم البيانية</span> </button> <button onclick="showSection('examples')" class="nav-item w-full text-right px-4 py-3 rounded-xl bg-slate-700/50 flex items-center gap-3"> <span class="text-xl">✏️</span> <span>أمثلة محلولة</span> </button> <button onclick="showSection('mistakes')" class="nav-item w-full text-right px-4 py-3 rounded-xl bg-slate-700/50 flex items-center gap-3"> <span class="text-xl">⚠️</span> <span>أخطاء شائعة</span> </button> <button onclick="showSection('summary')" class="nav-item w-full text-right px-4 py-3 rounded-xl bg-slate-700/50 flex items-center gap-3"> <span class="text-xl">📝</span> <span>ملخص للحفظ</span> </button> <button onclick="showSection('calculator')" class="nav-item w-full text-right px-4 py-3 rounded-xl bg-slate-700/50 flex items-center gap-3"> <span class="text-xl">🔢</span> <span>حاسبة التسارع</span> </button>
+      </div>
+     </div>
+    </nav><!-- Main Content -->
+    <main class="flex-1 min-w-0">
+     <!-- Section 1: Introduction -->
+     <section id="intro" class="section-content active">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">🎯</span> ما المقصود بالحركة المتسارعة؟</h2>
+       <div class="space-y-6">
+        <!-- Definition Card -->
+        <div class="equation-box rounded-xl p-6">
+         <h3 class="text-xl font-bold text-blue-400 mb-3">تعريف التسارع (Acceleration)</h3>
+         <p class="text-lg text-slate-300 leading-relaxed">هو <span class="text-yellow-400 font-bold">معدل تغير السرعة</span> بالنسبة للزمن</p>
+         <div class="mt-4 p-4 bg-slate-900/50 rounded-lg">
+          <p class="text-center text-xl font-bold text-blue-300">التسارع = تغير السرعة ÷ الزمن</p>
+         </div>
+        </div><!-- Cases Grid -->
+        <div class="grid md:grid-cols-3 gap-4">
+         <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-5 text-center">
+          <div class="text-4xl mb-3">
+           📈
+          </div>
+          <h4 class="font-bold text-green-400 mb-2">تسارع موجب</h4>
+          <p class="text-slate-300">عندما تزداد السرعة</p>
+          <div class="mt-3 text-2xl">
+           🚀➜
+          </div>
+         </div>
+         <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-5 text-center">
+          <div class="text-4xl mb-3">
+           📉
+          </div>
+          <h4 class="font-bold text-red-400 mb-2">تسارع سالب (تباطؤ)</h4>
+          <p class="text-slate-300">عندما تنقص السرعة</p>
+          <div class="mt-3 text-2xl">
+           🚗🛑
+          </div>
+         </div>
+         <div class="bg-purple-500/10 border border-purple-500/30 rounded-xl p-5 text-center">
+          <div class="text-4xl mb-3">
+           🔄
+          </div>
+          <h4 class="font-bold text-purple-400 mb-2">تغير الاتجاه</h4>
+          <p class="text-slate-300">يوجد تسارع حتى لو السرعة ثابتة</p>
+          <div class="mt-3 text-2xl">
+           ↩️
+          </div>
+         </div>
+        </div><!-- Unit Box -->
+        <div class="tip-card rounded-xl p-5">
+         <h4 class="font-bold text-green-400 mb-2 flex items-center gap-2"><span>💡</span> وحدة التسارع</h4>
+         <p class="text-xl text-center font-bold text-white">متر/ثانية² (م/ث²) أو m/s²</p>
+        </div><!-- Acceleration Formula -->
+        <div class="formula-highlight rounded-xl p-5">
+         <h4 class="font-bold text-yellow-400 mb-3">قانون التسارع الأساسي</h4>
+         <div class="text-center text-2xl font-bold text-white bg-slate-900/50 rounded-lg p-4">
+          a = (v<sub>f</sub> - v<sub>i</sub>) / t
+         </div>
+         <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+          <div class="bg-slate-800/50 rounded-lg p-2 text-center">
+           <span class="text-blue-400 font-bold">a</span> = التسارع
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2 text-center">
+           <span class="text-green-400 font-bold">v<sub>f</sub></span> = السرعة النهائية
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2 text-center">
+           <span class="text-purple-400 font-bold">v<sub>i</sub></span> = السرعة الابتدائية
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2 text-center">
+           <span class="text-yellow-400 font-bold">t</span> = الزمن
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Section 2: Equations -->
+     <section id="equations" class="section-content">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">📐</span> معادلات الحركة الثلاث</h2>
+       <div class="tip-card rounded-xl p-4 mb-6">
+        <p class="text-green-300 font-bold text-center">🔥 هذه المعادلات مهمة جداً للاختبار - احفظها جيداً!</p>
+       </div>
+       <div class="space-y-6">
+        <!-- Equation 1 -->
+        <div class="equation-box rounded-xl p-6">
+         <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center font-bold text-xl">1</span>
+          <h3 class="text-xl font-bold text-blue-400">المعادلة الأولى</h3>
+         </div>
+         <div class="text-center text-3xl font-bold text-white bg-slate-900/50 rounded-lg p-5 mb-4">
+          v<sub>f</sub> = v<sub>i</sub> + at
+         </div>
+         <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+          <p class="text-yellow-300 text-center">✨ تُستخدم عندما <span class="font-bold">لا توجد إزاحة</span> في المعطيات</p>
+         </div>
+        </div><!-- Equation 2 -->
+        <div class="equation-box rounded-xl p-6">
+         <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center font-bold text-xl">2</span>
+          <h3 class="text-xl font-bold text-purple-400">المعادلة الثانية</h3>
+         </div>
+         <div class="text-center text-3xl font-bold text-white bg-slate-900/50 rounded-lg p-5 mb-4">
+          d = v<sub>i</sub>t + ½at²
+         </div>
+         <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+          <p class="text-yellow-300 text-center">✨ تُستخدم عندما <span class="font-bold">لا توجد سرعة نهائية</span> في المعطيات</p>
+         </div>
+        </div><!-- Equation 3 -->
+        <div class="equation-box rounded-xl p-6">
+         <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center font-bold text-xl">3</span>
+          <h3 class="text-xl font-bold text-green-400">المعادلة الثالثة</h3>
+         </div>
+         <div class="text-center text-3xl font-bold text-white bg-slate-900/50 rounded-lg p-5 mb-4">
+          v<sub>f</sub>² = v<sub>i</sub>² + 2ad
+         </div>
+         <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+          <p class="text-yellow-300 text-center">✨ تُستخدم عندما <span class="font-bold">لا يوجد زمن</span> في المعطيات</p>
+         </div>
+        </div><!-- How to Choose -->
+        <div class="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-xl p-6">
+         <h4 class="text-xl font-bold text-blue-300 mb-4 flex items-center gap-2"><span>🎓</span> كيف تختار المعادلة المناسبة؟</h4>
+         <div class="space-y-3">
+          <div class="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3">
+           <span class="text-2xl">1️⃣</span>
+           <p>حدد <span class="text-green-400 font-bold">المعطيات</span> في السؤال</p>
+          </div>
+          <div class="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3">
+           <span class="text-2xl">2️⃣</span>
+           <p>حدد <span class="text-blue-400 font-bold">المطلوب</span></p>
+          </div>
+          <div class="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3">
+           <span class="text-2xl">3️⃣</span>
+           <p>اختر المعادلة التي <span class="text-yellow-400 font-bold">لا تحتوي على كمية مجهولة إضافية</span></p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Section 3: Animated Motions -->
+     <section id="animations" class="section-content">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">🎬</span> حركات متحركة تفاعلية</h2><!-- Speed Control -->
+       <div class="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-xl p-6 mb-6">
+        <h3 class="text-xl font-bold text-blue-300 mb-4 flex items-center gap-2"><span>⚙️</span> التحكم في السرعة</h3>
+        <div class="flex flex-col md:flex-row items-center gap-4">
+         <div class="flex-1"><input type="range" id="speed-slider" min="0.5" max="3" step="0.1" value="1" class="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer" onchange="setAnimationSpeed(parseFloat(this.value))">
+         </div>
+         <div class="flex items-center gap-3 bg-slate-800/50 rounded-lg px-4 py-2"><span class="text-yellow-400 font-bold">السرعة:</span> <span id="speed-value" class="text-2xl font-bold text-yellow-300">100%</span>
+         </div>
+        </div>
+        <p class="text-slate-400 text-sm mt-3">اسحب المؤشر لتغيير سرعة الحركات</p>
+       </div><!-- Animation Demos -->
+       <div class="grid md:grid-cols-2 gap-6"><!-- Free Fall Demo -->
+        <div class="interactive-demo rounded-xl p-6">
+         <h4 class="font-bold text-green-400 mb-4 text-center">🍎 السقوط الحر</h4>
+         <div class="relative h-48 flex justify-center bg-slate-700/30 rounded-lg overflow-hidden">
+          <div class="absolute w-1 h-full bg-gradient-to-b from-slate-600 to-slate-500 rounded"></div>
+          <div class="falling-ball absolute w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-full shadow-lg" style="animation: fall 2s ease-in infinite;"></div>
+         </div>
+         <div class="mt-4 text-center text-slate-300">
+          <p class="text-sm">السرعة تزداد باستمرار</p>
+          <p class="text-xs text-slate-400">v = gt</p>
+         </div>
+        </div><!-- Accelerated Motion Demo -->
+        <div class="interactive-demo rounded-xl p-6">
+         <h4 class="font-bold text-blue-400 mb-4 text-center">📈 حركة متسارعة</h4>
+         <div class="relative h-48 bg-slate-700/30 rounded-lg overflow-hidden flex items-center">
+          <div class="accelerating-ball absolute w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-lg" style="animation: accelerate 3s ease-out infinite;"></div>
+          <div class="absolute right-0 w-1 h-full bg-slate-600"></div>
+         </div>
+         <div class="mt-4 text-center text-slate-300">
+          <p class="text-sm">المسافات بين النقاط تزداد</p>
+          <p class="text-xs text-slate-400">a &gt; 0</p>
+         </div>
+        </div><!-- Deceleration Demo -->
+        <div class="interactive-demo rounded-xl p-6">
+         <h4 class="font-bold text-yellow-400 mb-4 text-center">📉 حركة متباطئة</h4>
+         <div class="relative h-48 bg-slate-700/30 rounded-lg overflow-hidden flex items-center">
+          <div class="decelerating-ball absolute w-8 h-8 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full shadow-lg" style="animation: decelerate 3s ease-in infinite;"></div>
+          <div class="absolute right-0 w-1 h-full bg-slate-600"></div>
+         </div>
+         <div class="mt-4 text-center text-slate-300">
+          <p class="text-sm">المسافات بين النقاط تقل</p>
+          <p class="text-xs text-slate-400">a &lt; 0</p>
+         </div>
+        </div><!-- Circular Motion Demo -->
+        <div class="interactive-demo rounded-xl p-6">
+         <h4 class="font-bold text-purple-400 mb-4 text-center">🔄 حركة دائرية</h4>
+         <div class="relative w-full h-48 bg-slate-700/30 rounded-lg overflow-hidden flex items-center justify-center">
+          <div class="circular-motion absolute w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full shadow-lg" style="animation: circular 4s linear infinite;"></div>
+          <div class="absolute w-32 h-32 border-2 border-slate-600 rounded-full"></div>
+         </div>
+         <div class="mt-4 text-center text-slate-300">
+          <p class="text-sm">تسارع نحو المركز</p>
+          <p class="text-xs text-slate-400">القوة المركزية</p>
+         </div>
+        </div>
+       </div><!-- Detailed Explanations -->
+       <div class="mt-8 grid md:grid-cols-2 gap-4">
+        <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+         <h4 class="font-bold text-green-400 mb-2">📌 السقوط الحر</h4>
+         <p class="text-slate-300 text-sm">الكرة تسقط برسم متسارع ثابت g = 9.8 م/ث²، والسرعة تزداد مع الزمن</p>
+        </div>
+        <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
+         <h4 class="font-bold text-blue-400 mb-2">📌 الحركة المتسارعة</h4>
+         <p class="text-slate-300 text-sm">المسافات بين النقاط تزداد تدريجياً، مما يشير إلى زيادة السرعة</p>
+        </div>
+        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
+         <h4 class="font-bold text-yellow-400 mb-2">📌 الحركة المتباطئة</h4>
+         <p class="text-slate-300 text-sm">المسافات بين النقاط تقل تدريجياً، مما يشير إلى انخفاض السرعة (تسارع سالب)</p>
+        </div>
+        <div class="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
+         <h4 class="font-bold text-purple-400 mb-2">📌 الحركة الدائرية</h4>
+         <p class="text-slate-300 text-sm">الجسم يتحرك بسرعة ثابتة لكن بتسارع نحو المركز (تسارع مركزي)</p>
+        </div>
+       </div>
+      </div>
+     </section><!-- Section 3: Free Fall -->
+     <section id="freefall" class="section-content">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">🍎</span> السقوط الحر</h2>
+       <div class="grid lg:grid-cols-2 gap-6">
+        <!-- Left Column -->
+        <div class="space-y-6">
+         <!-- Definition -->
+         <div class="equation-box rounded-xl p-6">
+          <h3 class="text-xl font-bold text-blue-400 mb-3">تعريف السقوط الحر</h3>
+          <p class="text-slate-300 leading-relaxed">هو حركة جسم يسقط تحت تأثير <span class="text-yellow-400 font-bold">الجاذبية فقط</span> <br><span class="text-slate-400 text-sm">(نهمل مقاومة الهواء)</span></p>
+         </div><!-- Gravity Value -->
+         <div class="bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-xl p-6">
+          <h4 class="font-bold text-orange-400 mb-3">تسارع الجاذبية الأرضية</h4>
+          <div class="text-center text-4xl font-bold text-white mb-3">
+           g = 9.8 م/ث²
+          </div>
+          <p class="text-center text-slate-400">≈ 10 م/ث² (للتقريب)</p>
+          <div class="mt-3 text-center">
+           <span class="px-4 py-2 bg-red-500/20 rounded-full text-red-300"> ⬇️ يتجه دائماً إلى الأسفل </span>
+          </div>
+         </div><!-- Cases -->
+         <div class="space-y-4">
+          <h4 class="font-bold text-lg text-purple-400">حالات السقوط:</h4>
+          <div class="bg-slate-700/50 rounded-xl p-4">
+           <div class="flex items-center gap-3 mb-2">
+            <span class="text-2xl">1️⃣</span>
+            <h5 class="font-bold text-green-400">جسم يُترك من السكون</h5>
+           </div>
+           <p class="text-slate-300 mr-10">السرعة الابتدائية = <span class="text-yellow-400 font-bold">صفر</span></p>
+          </div>
+          <div class="bg-slate-700/50 rounded-xl p-4">
+           <div class="flex items-center gap-3 mb-2">
+            <span class="text-2xl">2️⃣</span>
+            <h5 class="font-bold text-blue-400">جسم يُقذف لأعلى</h5>
+           </div>
+           <ul class="text-slate-300 mr-10 space-y-1">
+            <li>• السرعة تقل تدريجياً</li>
+            <li>• عند أعلى نقطة: السرعة = صفر</li>
+            <li>• ثم يبدأ بالسقوط</li>
+           </ul>
+          </div>
+         </div>
+        </div><!-- Right Column - Animation -->
+        <div class="space-y-6">
+         <!-- Animation Demo -->
+         <div class="interactive-demo rounded-xl p-6 relative overflow-hidden h-64">
+          <h4 class="font-bold text-indigo-400 mb-3 text-center">محاكاة السقوط الحر</h4>
+          <div class="relative h-40 flex justify-center">
+           <div class="absolute w-1 h-full bg-slate-600 rounded"></div>
+           <div class="falling-ball absolute w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-full shadow-lg"></div>
+          </div>
+          <p class="text-center text-slate-400 text-sm mt-2">الكرة تسقط بتسارع ثابت = g</p>
+         </div><!-- Important Note -->
+         <div class="warning-card rounded-xl p-5">
+          <h4 class="font-bold text-red-400 mb-3 flex items-center gap-2"><span>⚠️</span> نقطة مهمة جداً!</h4>
+          <div class="bg-slate-900/50 rounded-lg p-4">
+           <p class="text-lg text-center mb-3">عند <span class="text-yellow-400 font-bold">أعلى نقطة</span>:</p>
+           <div class="grid grid-cols-2 gap-3">
+            <div class="bg-green-500/20 rounded-lg p-3 text-center">
+             <p class="text-green-400">السرعة</p>
+             <p class="text-2xl font-bold">= 0</p>
+            </div>
+            <div class="bg-red-500/20 rounded-lg p-3 text-center">
+             <p class="text-red-400">التسارع</p>
+             <p class="text-2xl font-bold">≠ 0</p>
+            </div>
+           </div>
+           <p class="text-center mt-3 text-slate-300">التسارع يساوي <span class="text-yellow-400 font-bold">g</span> دائماً!</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Section 4: Graphs -->
+     <section id="graphs" class="section-content">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">📊</span> الرسوم البيانية للحركة</h2>
+       <div class="grid md:grid-cols-2 gap-6">
+        <!-- V-T Graph -->
+        <div class="equation-box rounded-xl p-6">
+         <h3 class="text-xl font-bold text-blue-400 mb-4 flex items-center gap-2"><span>📈</span> منحنى السرعة - الزمن (v-t)</h3><!-- Simple Graph Representation -->
+         <div class="bg-slate-900/50 rounded-lg p-4 mb-4">
+          <svg viewbox="0 0 200 150" class="w-full h-32">
+           <!-- Axes --> <line x1="30" y1="120" x2="180" y2="120" stroke="#64748b" stroke-width="2" /> <line x1="30" y1="120" x2="30" y2="20" stroke="#64748b" stroke-width="2" /> <!-- Labels --> <text x="100" y="140" fill="#94a3b8" font-size="12" text-anchor="middle">
+            الزمن (t)
+           </text> <text x="15" y="70" fill="#94a3b8" font-size="12" text-anchor="middle" transform="rotate(-90, 15, 70)">
+            السرعة (v)
+           </text> <!-- Line --> <line x1="30" y1="100" x2="170" y2="40" stroke="#3b82f6" stroke-width="3" /> <!-- Area --> <polygon points="30,100 170,40 170,120 30,120" fill="rgba(59,130,246,0.2)" />
+          </svg>
+         </div>
+         <div class="space-y-3">
+          <div class="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3">
+           <span class="text-xl">📐</span>
+           <p><span class="text-blue-400 font-bold">ميل الخط</span> = التسارع</p>
+          </div>
+          <div class="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3">
+           <span class="text-xl">📦</span>
+           <p><span class="text-green-400 font-bold">المساحة تحت المنحنى</span> = الإزاحة</p>
+          </div>
+         </div>
+        </div><!-- D-T Graph -->
+        <div class="equation-box rounded-xl p-6">
+         <h3 class="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2"><span>📈</span> منحنى الموقع - الزمن (d-t)</h3><!-- Simple Graph Representation -->
+         <div class="bg-slate-900/50 rounded-lg p-4 mb-4">
+          <svg viewbox="0 0 200 150" class="w-full h-32">
+           <!-- Axes --> <line x1="30" y1="120" x2="180" y2="120" stroke="#64748b" stroke-width="2" /> <line x1="30" y1="120" x2="30" y2="20" stroke="#64748b" stroke-width="2" /> <!-- Labels --> <text x="100" y="140" fill="#94a3b8" font-size="12" text-anchor="middle">
+            الزمن (t)
+           </text> <text x="15" y="70" fill="#94a3b8" font-size="12" text-anchor="middle" transform="rotate(-90, 15, 70)">
+            الموقع (d)
+           </text> <!-- Curve --> <path d="M30,110 Q100,100 170,30" stroke="#a855f7" stroke-width="3" fill="none" />
+          </svg>
+         </div>
+         <div class="space-y-3">
+          <div class="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3">
+           <span class="text-xl">📐</span>
+           <p><span class="text-purple-400 font-bold">ميل المنحنى</span> = السرعة</p>
+          </div>
+          <div class="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3">
+           <span class="text-xl">🔄</span>
+           <p>إذا كان المنحنى <span class="text-yellow-400 font-bold">منحنٍ</span> ➜ يوجد تسارع</p>
+          </div>
+         </div>
+        </div>
+       </div><!-- Graph Interpretation Tips -->
+       <div class="tip-card rounded-xl p-5 mt-6">
+        <h4 class="font-bold text-green-400 mb-3">💡 نصائح لقراءة الرسوم البيانية:</h4>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div class="bg-slate-800/50 rounded-lg p-3">
+          <p>• خط مستقيم في (v-t) = <span class="text-blue-400">تسارع ثابت</span></p>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-3">
+          <p>• خط أفقي في (v-t) = <span class="text-green-400">سرعة ثابتة</span></p>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-3">
+          <p>• منحنى في (d-t) = <span class="text-purple-400">وجود تسارع</span></p>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-3">
+          <p>• خط مستقيم في (d-t) = <span class="text-yellow-400">سرعة ثابتة</span></p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Section 5: Examples -->
+     <section id="examples" class="section-content">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">✏️</span> أمثلة محلولة</h2>
+       <div class="space-y-6">
+        <!-- Example 1 -->
+        <div class="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-6">
+         <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center font-bold">1</span>
+          <h3 class="text-xl font-bold text-blue-400">مثال على التسارع</h3>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 mb-4">
+          <p class="text-lg text-slate-300">جسم بدأ من <span class="text-yellow-400 font-bold">السكون</span> وتسارع بمقدار <span class="text-green-400 font-bold">2 م/ث²</span> لمدة <span class="text-purple-400 font-bold">5 ثواني</span>. <br><span class="text-blue-300">المطلوب: السرعة النهائية</span></p>
+         </div>
+         <div class="space-y-3">
+          <div class="flex items-center gap-2">
+           <span class="text-green-400">✓</span>
+           <p>المعطيات: v<sub>i</sub> = 0 , a = 2 م/ث² , t = 5 ث</p>
+          </div>
+          <div class="flex items-center gap-2">
+           <span class="text-blue-400">✓</span>
+           <p>المعادلة المناسبة: v<sub>f</sub> = v<sub>i</sub> + at</p>
+          </div>
+          <div class="bg-green-500/20 rounded-lg p-4 text-center">
+           <p class="text-lg">v<sub>f</sub> = 0 + (2 × 5)</p>
+           <p class="text-2xl font-bold text-green-400 mt-2">v<sub>f</sub> = 10 م/ث</p>
+          </div>
+         </div>
+        </div><!-- Example 2 -->
+        <div class="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 rounded-xl p-6">
+         <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center font-bold">2</span>
+          <h3 class="text-xl font-bold text-orange-400">مثال على السقوط الحر</h3>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 mb-4">
+          <p class="text-lg text-slate-300">جسم <span class="text-yellow-400 font-bold">سقط من السكون</span> لمدة <span class="text-purple-400 font-bold">3 ثواني</span>. <br><span class="text-blue-300">المطلوب: سرعته</span></p>
+         </div>
+         <div class="space-y-3">
+          <div class="flex items-center gap-2">
+           <span class="text-green-400">✓</span>
+           <p>المعطيات: v<sub>i</sub> = 0 , g = 9.8 م/ث² , t = 3 ث</p>
+          </div>
+          <div class="flex items-center gap-2">
+           <span class="text-blue-400">✓</span>
+           <p>المعادلة: v = gt (لأن v<sub>i</sub> = 0)</p>
+          </div>
+          <div class="bg-orange-500/20 rounded-lg p-4 text-center">
+           <p class="text-lg">v = 9.8 × 3</p>
+           <p class="text-2xl font-bold text-orange-400 mt-2">v = 29.4 م/ث</p>
+          </div>
+         </div>
+        </div><!-- Example 3 -->
+        <div class="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-6">
+         <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center font-bold">3</span>
+          <h3 class="text-xl font-bold text-purple-400">مثال على حساب الإزاحة</h3>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 mb-4">
+          <p class="text-lg text-slate-300">سيارة تتحرك بسرعة <span class="text-green-400 font-bold">10 م/ث</span> وتسارعت بمقدار <span class="text-blue-400 font-bold">4 م/ث²</span> لمدة <span class="text-purple-400 font-bold">3 ثواني</span>. <br><span class="text-blue-300">المطلوب: المسافة المقطوعة</span></p>
+         </div>
+         <div class="space-y-3">
+          <div class="flex items-center gap-2">
+           <span class="text-green-400">✓</span>
+           <p>المعطيات: v<sub>i</sub> = 10 م/ث , a = 4 م/ث² , t = 3 ث</p>
+          </div>
+          <div class="flex items-center gap-2">
+           <span class="text-blue-400">✓</span>
+           <p>المعادلة: d = v<sub>i</sub>t + ½at²</p>
+          </div>
+          <div class="bg-purple-500/20 rounded-lg p-4 text-center">
+           <p class="text-lg">d = (10 × 3) + (½ × 4 × 9)</p>
+           <p class="text-lg">d = 30 + 18</p>
+           <p class="text-2xl font-bold text-purple-400 mt-2">d = 48 م</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Section 6: Common Mistakes -->
+     <section id="mistakes" class="section-content">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">⚠️</span> أخطاء شائعة في الاختبار</h2>
+       <div class="space-y-4">
+        <div class="warning-card rounded-xl p-5">
+         <div class="flex items-start gap-4">
+          <span class="text-3xl">❌</span>
+          <div>
+           <h4 class="font-bold text-red-400 mb-2">نسيان أن السرعة الابتدائية = صفر</h4>
+           <p class="text-slate-300">عند كلمة <span class="text-yellow-400">"سقط"</span> أو <span class="text-yellow-400">"بدأ من السكون"</span> ➜ v<sub>i</sub> = 0</p>
+          </div>
+         </div>
+        </div>
+        <div class="warning-card rounded-xl p-5">
+         <div class="flex items-start gap-4">
+          <span class="text-3xl">❌</span>
+          <div>
+           <h4 class="font-bold text-red-400 mb-2">استخدام معادلة خاطئة</h4>
+           <p class="text-slate-300">اختيار معادلة تحتوي على <span class="text-yellow-400">مجهول إضافي</span> غير المطلوب</p>
+          </div>
+         </div>
+        </div>
+        <div class="warning-card rounded-xl p-5">
+         <div class="flex items-start gap-4">
+          <span class="text-3xl">❌</span>
+          <div>
+           <h4 class="font-bold text-red-400 mb-2">نسيان اتجاه الإشارة</h4>
+           <p class="text-slate-300">التسارع <span class="text-green-400">موجب</span> للأسفل و <span class="text-red-400">سالب</span> للأعلى (حسب اختيار الموجب)</p>
+          </div>
+         </div>
+        </div>
+        <div class="warning-card rounded-xl p-5">
+         <div class="flex items-start gap-4">
+          <span class="text-3xl">❌</span>
+          <div>
+           <h4 class="font-bold text-red-400 mb-2">الخلط بين السرعة والتسارع</h4>
+           <p class="text-slate-300"><span class="text-blue-400">السرعة</span> = مقدار التغير في الموقع | <span class="text-purple-400">التسارع</span> = مقدار التغير في السرعة</p>
+          </div>
+         </div>
+        </div>
+        <div class="warning-card rounded-xl p-5">
+         <div class="flex items-start gap-4">
+          <span class="text-3xl">❌</span>
+          <div>
+           <h4 class="font-bold text-red-400 mb-2">الاعتقاد أن التسارع = صفر عند أعلى نقطة</h4>
+           <p class="text-slate-300">عند أعلى نقطة: <span class="text-green-400">السرعة = صفر</span> لكن <span class="text-yellow-400">التسارع = g ≠ صفر</span></p>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="tip-card rounded-xl p-5 mt-6">
+        <h4 class="font-bold text-green-400 mb-3 flex items-center gap-2"><span>💡</span> نصيحة ذهبية قبل الاختبار</h4>
+        <p class="text-slate-300 text-lg text-center">اقرأ السؤال مرتين، حدد المعطيات والمطلوب، ثم اختر المعادلة بعناية!</p>
+       </div>
+      </div>
+     </section><!-- Section 7: Summary -->
+     <section id="summary" class="section-content">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">📝</span> ملخص سريع للحفظ</h2>
+       <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-5">
+         <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl">📌</span>
+          <h4 class="font-bold text-blue-400">التسارع</h4>
+         </div>
+         <p class="text-xl text-center font-bold">a = Δv / t</p>
+         <p class="text-center text-slate-400 mt-2">تغير السرعة ÷ الزمن</p>
+        </div>
+        <div class="bg-purple-500/10 border border-purple-500/30 rounded-xl p-5">
+         <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl">📌</span>
+          <h4 class="font-bold text-purple-400">السقوط الحر</h4>
+         </div>
+         <p class="text-xl text-center font-bold">g = 9.8 م/ث²</p>
+         <p class="text-center text-slate-400 mt-2">≈ 10 م/ث² للتقريب</p>
+        </div>
+        <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-5">
+         <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl">📌</span>
+          <h4 class="font-bold text-green-400">أعلى نقطة</h4>
+         </div>
+         <p class="text-center">السرعة = <span class="text-yellow-400 font-bold">صفر</span></p>
+         <p class="text-center text-slate-400 mt-1">لكن التسارع ≠ صفر</p>
+        </div>
+        <div class="bg-orange-500/10 border border-orange-500/30 rounded-xl p-5">
+         <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl">📌</span>
+          <h4 class="font-bold text-orange-400">وحدة التسارع</h4>
+         </div>
+         <p class="text-xl text-center font-bold">م/ث²</p>
+         <p class="text-center text-slate-400 mt-2">أو m/s²</p>
+        </div>
+       </div><!-- Quick Equations Reference -->
+       <div class="mt-6 bg-gradient-to-r from-slate-700/50 to-slate-600/50 rounded-xl p-6">
+        <h4 class="font-bold text-xl text-center mb-4">📋 المعادلات الثلاث</h4>
+        <div class="grid md:grid-cols-3 gap-4 text-center">
+         <div class="bg-slate-800/50 rounded-lg p-4">
+          <p class="text-blue-400 mb-2">بدون إزاحة</p>
+          <p class="text-xl font-bold">v<sub>f</sub> = v<sub>i</sub> + at</p>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4">
+          <p class="text-purple-400 mb-2">بدون v<sub>f</sub></p>
+          <p class="text-xl font-bold">d = v<sub>i</sub>t + ½at²</p>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4">
+          <p class="text-green-400 mb-2">بدون زمن</p>
+          <p class="text-xl font-bold">v<sub>f</sub>² = v<sub>i</sub>² + 2ad</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Section 8: Calculator -->
+     <section id="calculator" class="section-content">
+      <div class="bg-slate-800/50 rounded-2xl p-6 md:p-8 backdrop-blur border border-slate-700/50 card-glow">
+       <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3"><span class="text-3xl">🔢</span> حاسبة التسارع التفاعلية</h2>
+       <div class="grid lg:grid-cols-2 gap-6">
+        <!-- Calculator Input -->
+        <div class="equation-box rounded-xl p-6">
+         <h3 class="text-xl font-bold text-blue-400 mb-4">أدخل القيم المعروفة:</h3>
+         <div class="space-y-4">
+          <div>
+           <label class="block text-slate-300 mb-2">السرعة الابتدائية (v<sub>i</sub>) - م/ث</label> <input type="number" id="calc-vi" placeholder="مثال: 0" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+           <label class="block text-slate-300 mb-2">السرعة النهائية (v<sub>f</sub>) - م/ث</label> <input type="number" id="calc-vf" placeholder="مثال: 20" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+           <label class="block text-slate-300 mb-2">الزمن (t) - ثانية</label> <input type="number" id="calc-t" placeholder="مثال: 5" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+           <label class="block text-slate-300 mb-2">التسارع (a) - م/ث²</label> <input type="number" id="calc-a" placeholder="مثال: 10" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+           <label class="block text-slate-300 mb-2">الإزاحة (d) - متر</label> <input type="number" id="calc-d" placeholder="مثال: 100" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500">
+          </div><button onclick="calculate()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105"> احسب المجهول 🔍 </button> <button onclick="clearCalculator()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-lg transition-all"> مسح القيم 🗑️ </button>
+         </div>
+        </div><!-- Calculator Result -->
+        <div class="space-y-4">
+         <div id="calc-result" class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-xl p-6 min-h-48">
+          <h3 class="text-xl font-bold text-green-400 mb-4">النتيجة:</h3>
+          <p class="text-slate-400 text-center">أدخل القيم المعروفة واترك خانة واحدة فارغة لحسابها</p>
+         </div>
+         <div class="tip-card rounded-xl p-4">
+          <h4 class="font-bold text-green-400 mb-2">💡 كيفية الاستخدام:</h4>
+          <ul class="text-slate-300 space-y-2 text-sm">
+           <li>• أدخل 3 أو 4 قيم معروفة</li>
+           <li>• اترك القيمة المجهولة فارغة</li>
+           <li>• اضغط "احسب المجهول"</li>
+           <li>• للسقوط الحر: استخدم a = 9.8 أو 10</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section>
+    </main>
+   </div><!-- Footer -->
+   <footer class="mt-8 py-6 border-t border-slate-700/50 text-center text-slate-400">
+    <p>📚 شرح الفصل الثالث: الحركة المتسارعة | فيزياء المرحلة الثانوية</p>
+    <p class="mt-2 text-sm">بالتوفيق في اختبارك! 🌟</p>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: 'الفصل الثالث: الحركة المتسارعة'
+    };
+
+    function onConfigChange(config) {
+      const titleEl = document.getElementById('main-title');
+      if (titleEl) {
+        titleEl.textContent = config.main_title || defaultConfig.main_title;
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['main_title', config.main_title || defaultConfig.main_title]
+        ])
+      });
+    }
+
+    // Login Handler
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('username-input').value;
+      const password = document.getElementById('password-input').value;
+      const errorDiv = document.getElementById('login-error');
+      const errorMessage = document.getElementById('error-message');
+      
+      if (username === 'Hozan' && password === '2010') {
+        // Hide login screen and show main content
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('main-content').classList.remove('hidden');
+        localStorage.setItem('isLoggedIn', 'true');
+      } else {
+        errorDiv.classList.remove('hidden');
+        errorMessage.textContent = '❌ اسم المستخدم أو كلمة المرور غير صحيحة';
+        document.getElementById('password-input').value = '';
+        setTimeout(() => {
+          errorDiv.classList.add('hidden');
+        }, 3000);
+      }
+    }
+
+    // Logout Handler
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('main-content').classList.add('hidden');
+      document.getElementById('login-form').reset();
+    }
+
+    // Check if already logged in on page load
+    window.addEventListener('load', () => {
+      if (localStorage.getItem('isLoggedIn') === 'true') {
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('main-content').classList.remove('hidden');
+      }
+    });
+
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.section-content').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Remove active from all nav items
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      
+      // Show selected section
+      document.getElementById(sectionId).classList.add('active');
+      
+      // Add active to clicked nav item
+      event.currentTarget.classList.add('active');
+      
+      // Scroll to top of content on mobile
+      if (window.innerWidth < 1024) {
+        document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Animation controls
+    let animationSpeed = 1;
+
+    function setAnimationSpeed(speed) {
+      animationSpeed = speed;
+      const style = document.getElementById('animation-speed-style') || document.createElement('style');
+      style.id = 'animation-speed-style';
+      style.textContent = `
+        .falling-ball { animation-duration: ${2 / speed}s !important; }
+        .accelerating-ball { animation-duration: ${3 / speed}s !important; }
+        .decelerating-ball { animation-duration: ${3 / speed}s !important; }
+        .circular-motion { animation-duration: ${4 / speed}s !important; }
+      `;
+      if (!document.getElementById('animation-speed-style')) {
+        document.head.appendChild(style);
+      }
+      document.getElementById('speed-value').textContent = (speed * 100).toFixed(0) + '%';
+    }
+
+    function calculate() {
+      const vi = document.getElementById('calc-vi').value;
+      const vf = document.getElementById('calc-vf').value;
+      const t = document.getElementById('calc-t').value;
+      const a = document.getElementById('calc-a').value;
+      const d = document.getElementById('calc-d').value;
+
+      const resultDiv = document.getElementById('calc-result');
+      let result = '';
+      let equation = '';
+      let calculated = false;
+
+      // Convert to numbers (empty string becomes NaN)
+      const viNum = vi === '' ? NaN : parseFloat(vi);
+      const vfNum = vf === '' ? NaN : parseFloat(vf);
+      const tNum = t === '' ? NaN : parseFloat(t);
+      const aNum = a === '' ? NaN : parseFloat(a);
+      const dNum = d === '' ? NaN : parseFloat(d);
+
+      // Calculate missing value using appropriate equation
+      if (isNaN(vfNum) && !isNaN(viNum) && !isNaN(aNum) && !isNaN(tNum)) {
+        // vf = vi + at
+        const calcVf = viNum + (aNum * tNum);
+        equation = 'v<sub>f</sub> = v<sub>i</sub> + at';
+        result = `السرعة النهائية (v<sub>f</sub>) = <span class="text-3xl font-bold text-green-400">${calcVf.toFixed(2)} م/ث</span>`;
+        calculated = true;
+      } else if (isNaN(viNum) && !isNaN(vfNum) && !isNaN(aNum) && !isNaN(tNum)) {
+        // vi = vf - at
+        const calcVi = vfNum - (aNum * tNum);
+        equation = 'v<sub>i</sub> = v<sub>f</sub> - at';
+        result = `السرعة الابتدائية (v<sub>i</sub>) = <span class="text-3xl font-bold text-green-400">${calcVi.toFixed(2)} م/ث</span>`;
+        calculated = true;
+      } else if (isNaN(aNum) && !isNaN(vfNum) && !isNaN(viNum) && !isNaN(tNum) && tNum !== 0) {
+        // a = (vf - vi) / t
+        const calcA = (vfNum - viNum) / tNum;
+        equation = 'a = (v<sub>f</sub> - v<sub>i</sub>) / t';
+        result = `التسارع (a) = <span class="text-3xl font-bold text-green-400">${calcA.toFixed(2)} م/ث²</span>`;
+        calculated = true;
+      } else if (isNaN(tNum) && !isNaN(vfNum) && !isNaN(viNum) && !isNaN(aNum) && aNum !== 0) {
+        // t = (vf - vi) / a
+        const calcT = (vfNum - viNum) / aNum;
+        equation = 't = (v<sub>f</sub> - v<sub>i</sub>) / a';
+        result = `الزمن (t) = <span class="text-3xl font-bold text-green-400">${calcT.toFixed(2)} ث</span>`;
+        calculated = true;
+      } else if (isNaN(dNum) && !isNaN(viNum) && !isNaN(tNum) && !isNaN(aNum)) {
+        // d = vi*t + 0.5*a*t²
+        const calcD = (viNum * tNum) + (0.5 * aNum * tNum * tNum);
+        equation = 'd = v<sub>i</sub>t + ½at²';
+        result = `الإزاحة (d) = <span class="text-3xl font-bold text-green-400">${calcD.toFixed(2)} م</span>`;
+        calculated = true;
+      } else if (isNaN(vfNum) && !isNaN(viNum) && !isNaN(aNum) && !isNaN(dNum)) {
+        // vf² = vi² + 2ad
+        const vfSquared = (viNum * viNum) + (2 * aNum * dNum);
+        if (vfSquared >= 0) {
+          const calcVf = Math.sqrt(vfSquared);
+          equation = 'v<sub>f</sub>² = v<sub>i</sub>² + 2ad';
+          result = `السرعة النهائية (v<sub>f</sub>) = <span class="text-3xl font-bold text-green-400">${calcVf.toFixed(2)} م/ث</span>`;
+          calculated = true;
+        }
+      } else if (isNaN(aNum) && !isNaN(vfNum) && !isNaN(viNum) && !isNaN(dNum) && dNum !== 0) {
+        // a = (vf² - vi²) / 2d
+        const calcA = ((vfNum * vfNum) - (viNum * viNum)) / (2 * dNum);
+        equation = 'a = (v<sub>f</sub>² - v<sub>i</sub>²) / 2d';
+        result = `التسارع (a) = <span class="text-3xl font-bold text-green-400">${calcA.toFixed(2)} م/ث²</span>`;
+        calculated = true;
+      }
+
+      if (calculated) {
+        resultDiv.innerHTML = `
+          <h3 class="text-xl font-bold text-green-400 mb-4">✅ النتيجة:</h3>
+          <div class="bg-slate-900/50 rounded-lg p-4 mb-4">
+            <p class="text-slate-400 mb-2">المعادلة المستخدمة:</p>
+            <p class="text-xl text-center text-blue-400">${equation}</p>
+          </div>
+          <div class="text-center p-4">${result}</div>
+        `;
+      } else {
+        resultDiv.innerHTML = `
+          <h3 class="text-xl font-bold text-yellow-400 mb-4">⚠️ تنبيه:</h3>
+          <p class="text-slate-300 text-center">تأكد من إدخال القيم المعروفة بشكل صحيح وترك خانة واحدة فارغة للحساب</p>
+          <p class="text-slate-400 text-center mt-2 text-sm">يجب إدخال 3 قيم على الأقل لحساب المجهول</p>
+        `;
+      }
+    }
+
+    function clearCalculator() {
+      document.getElementById('calc-vi').value = '';
+      document.getElementById('calc-vf').value = '';
+      document.getElementById('calc-t').value = '';
+      document.getElementById('calc-a').value = '';
+      document.getElementById('calc-d').value = '';
+      document.getElementById('calc-result').innerHTML = `
+        <h3 class="text-xl font-bold text-green-400 mb-4">النتيجة:</h3>
+        <p class="text-slate-400 text-center">أدخل القيم المعروفة واترك خانة واحدة فارغة لحسابها</p>
+      `;
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d473cfb2125b220',t:'MTc3MjE5MDY1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
